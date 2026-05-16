@@ -187,12 +187,12 @@ function Hero({ onAvatarClick, onLiveClick, avatarFx, theme }) {
   return (
     <section className="hero" id="top">
       <div className="wrap hero-grid">
-        <div className="hero-head">
+        <div className="hero-eyebrow">
           <span className="eyebrow"><span className="num">01</span> / Portfolio · 2026</span>
-          <h1>
-            Ahmed<br />Sameh<em>.</em>
-          </h1>
         </div>
+        <h1>
+          Ahmed<br />Sameh<em>.</em>
+        </h1>
         <div className="avatar-card">
           <div className={`avatar-frame ${avatarFx}`} onClick={onAvatarClick}>
             <img
@@ -266,6 +266,8 @@ function About() {
 
 /* ---------- Experience ---------- */
 function Experience() {
+  const [expanded, setExpanded] = useState({});
+  const toggle = (i) => setExpanded(prev => ({ ...prev, [i]: !prev[i] }));
   return (
     <section id="experience">
       <div className="wrap">
@@ -278,19 +280,27 @@ function Experience() {
         </div>
         <div className="timeline">
           {D.experience.map((e, i) => (
-            <div key={i} className={`tl-row reveal ${e.current ? "current" : ""}`}>
+            <div key={i} className={`tl-row ${e.current ? "current" : ""} ${expanded[i] ? "open" : ""}`}
+                 onClick={() => toggle(i)}>
               <div className="tl-when">
                 <div>{e.start} → {e.end}</div>
                 {e.current && <span className="now">Now</span>}
               </div>
               <div className="tl-body">
-                <h3>{e.company}</h3>
-                <div className="role">{e.role}</div>
-                {e.bullets
-                  ? <ul className="exp-bullets">{e.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>
-                  : <p>{e.note}</p>}
-                <div className="chips">
-                  {e.stack.map(s => <span key={s} className="chip">{s}</span>)}
+                <div className="tl-header">
+                  <div>
+                    <h3>{e.company}</h3>
+                    <div className="role">{e.role}</div>
+                  </div>
+                  <span className="tl-toggle" aria-hidden="true">{expanded[i] ? "−" : "+"}</span>
+                </div>
+                <div className="tl-details">
+                  {e.bullets
+                    ? <ul className="exp-bullets">{e.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>
+                    : <p>{e.note}</p>}
+                  <div className="chips">
+                    {e.stack.map(s => <span key={s} className="chip">{s}</span>)}
+                  </div>
                 </div>
               </div>
             </div>
@@ -301,8 +311,54 @@ function Experience() {
   );
 }
 
+/* ---------- PDF Preview Modal (shared) ---------- */
+function PdfModal({ item, onClose }) {
+  const open = !!item;
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  if (!item) return null;
+
+  const embedUrl = item.pdfUrl
+    ? item.pdfUrl.replace(/\/view.*$/, "/preview").replace(/\/edit.*$/, "/preview")
+    : null;
+
+  return (
+    <div className={`cert-modal ${open ? "show" : ""}`} onClick={onClose}>
+      <div className="cert-modal-panel" onClick={e => e.stopPropagation()}>
+        <div className="cert-modal-bar">
+          <div>
+            <div className="cert-modal-name">{item.name}</div>
+            {item.subtitle && <div className="cert-modal-meta">{item.subtitle}</div>}
+          </div>
+          <button className="cert-modal-close" onClick={onClose} aria-label="Close">×</button>
+        </div>
+        <div className="cert-modal-body">
+          {embedUrl
+            ? <div className="cert-modal-iframe-wrap"><iframe src={embedUrl} title={item.name} allowFullScreen /></div>
+            : <div className="cert-modal-empty">No PDF uploaded yet.</div>
+          }
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Education + Certifications ---------- */
 function EduCerts() {
+  const [activeItem, setActiveItem] = useState(null);
+  const openEdu = (e) => e.pdfUrl && setActiveItem({ name: e.degree, subtitle: e.school.trim() + " · " + e.years, pdfUrl: e.pdfUrl });
+  const openCert = (c) => c.pdfUrl && setActiveItem({ name: c.name, subtitle: c.issuer + " · " + c.year, pdfUrl: c.pdfUrl });
   return (
     <section id="education">
       <div className="wrap">
@@ -317,29 +373,42 @@ function EduCerts() {
           <div className="card reveal">
             <h3>Education</h3>
             {D.education.map((e, i) => (
-              <div key={i} className="edu-item">
+              <div
+                key={i}
+                className={`edu-item${e.pdfUrl ? " edu-clickable" : ""}`}
+                onClick={() => openEdu(e)}
+                title={e.pdfUrl ? "Click to preview" : undefined}
+              >
                 <div className="school">{e.school}</div>
                 <div className="deg">{e.degree}</div>
                 <div className="when">{e.years} · {e.detail}</div>
+                {e.pdfUrl && <div className="cert-preview-hint">View ↗</div>}
               </div>
             ))}
           </div>
           <div className="card reveal">
             <h3>Certifications</h3>
             {D.certifications.map((c, i) => (
-              <div key={i} className="cert-item">
+              <div
+                key={i}
+                className={`cert-item${c.pdfUrl ? " cert-clickable" : ""}`}
+                onClick={() => openCert(c)}
+                title={c.pdfUrl ? "Click to preview certificate" : undefined}
+              >
                 <div>
                   <div className="name">{c.name}</div>
                   <div className="meta">{c.issuer}</div>
                 </div>
                 <div className="right">
                   <div className="when">{c.year}</div>
+                  {c.pdfUrl && <div className="cert-preview-hint">View ↗</div>}
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+      <PdfModal item={activeItem} onClose={() => setActiveItem(null)} />
     </section>
   );
 }
@@ -402,7 +471,7 @@ function Projects() {
         <div className="section-head reveal">
           <div>
             <span className="eyebrow"><span className="num">06</span> / Projects</span>
-            <h2>More from the workshop.</h2>
+            <h2>More Projects.</h2>
           </div>
           <span className="meta">{D.projects.length} projects</span>
         </div>
@@ -432,6 +501,8 @@ function Projects() {
 
 /* ---------- Courses ---------- */
 function Courses() {
+  const [activeItem, setActiveItem] = useState(null);
+  const openCourse = (c) => c.pdfUrl && setActiveItem({ name: c.name, subtitle: c.by + (c.year ? " · " + c.year : ""), pdfUrl: c.pdfUrl });
   return (
     <section id="courses">
       <div className="wrap">
@@ -444,14 +515,21 @@ function Courses() {
         </div>
         <div className="courses-grid reveal">
           {D.courses.map((c, i) => (
-            <div key={i} className="course">
+            <div
+              key={i}
+              className={`course${c.pdfUrl ? " course-clickable" : ""}`}
+              onClick={() => openCourse(c)}
+              title={c.pdfUrl ? "Click to preview certificate" : undefined}
+            >
               <div className="tag">{c.tag}</div>
               <div className="name">{c.name}</div>
               <div className="by">{c.by}</div>
+              {c.pdfUrl && <div className="cert-preview-hint">View ↗</div>}
             </div>
           ))}
         </div>
       </div>
+      <PdfModal item={activeItem} onClose={() => setActiveItem(null)} />
     </section>
   );
 }
@@ -652,9 +730,9 @@ function App() {
           "",
           "user      : ahmed.sameh",
           "role      : software engineer @ e&",
-          "stack     : java · spring · kafka · redis",
-          "after_5pm : pcb solder · llm wrangling · flutter",
-          "fun_fact  : owns more keyboards than is reasonable",
+          "stack     : java · spring · kafka · angular",
+          "after_5pm : tiny tools · llm wrangling · flutter",
+          "fun_fact  : owns more games than is reasonable",
           "",
           "$ tip:  you found one. there are [5] gems total."
         ]);

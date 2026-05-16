@@ -76,19 +76,21 @@ window.PORTFOLIO = {
       school: "Ain Shams University & ",
       degree: "Bachelor's Degree, Computer Engineering",
       years: "2020 — 2025",
-      detail: "GPA 3.54 · Graduation Project sponsored by Siemens"
+      detail: "GPA 3.54 · Graduation Project sponsored by Siemens",
+      pdfUrl: ""
     },
     {
       school: "University of East London",
       degree: "Dual Bachelor's, Computer Engineering",
       years: "2021 — 2025",
-      detail: "GPA 3.54"
+      detail: "GPA 3.54",
+      pdfUrl: ""
     }
   ],
 
   certifications: [
-    { name: "CompTIA Security+", issuer: "CompTIA", year: "Apr 2025", valid: "Apr 2028" },
-    { name: "Cisco Certified Network Associate (CCNA)", issuer: "Cisco", year: "Mar 2025", valid: "Mar 2028" }
+    { name: "CompTIA Security+", issuer: "CompTIA", year: "Apr 2025", valid: "Apr 2028", pdfUrl: "https://drive.google.com/file/d/1NBJp8MgryujGBxxuZIbv_lZursdqM_zd/view?usp=sharing" },
+    { name: "Cisco Certified Network Associate (CCNA)", issuer: "Cisco", year: "Mar 2025", valid: "Mar 2028", pdfUrl: "https://drive.google.com/file/d/1glqaZOhAfJnHLaP1oNh4ceXQOb8DQc0a/view?usp=sharing" }
   ],
 
   featured: [
@@ -186,14 +188,14 @@ window.PORTFOLIO = {
   ],
 
   courses: [
-    { name: "The Complete Full-Stack Web Development Course", by: "Udemy — Angela Yu", tag: "Web", year: "Present" },
-    { name: "Google Cybersecurity Professional Specialization", by: "Coursera (Google)", tag: "Security", year: "Dec 2024" },
-    { name: "Cisco CyberOps Associate", by: "National Telecommunication Institute", tag: "Security", year: "Sep 2024" },
-    { name: "Meta Front-End Development Specialization", by: "Coursera (Meta)", tag: "Web", year: "Mar 2024" },
-    { name: "Machine Learning Specialization", by: "Coursera (DeepLearning.ai)", tag: "ML", year: "Sep 2023" },
-    { name: "Flutter Development", by: "Sprints", tag: "Mobile", year: "Aug 2023" },
-    { name: "Data Structures and Algorithms", by: "Coursera (UC San Diego)", tag: "CS", year: "Jan 2023" },
-    { name: "Crash Course on Python", by: "Coursera (Google)", tag: "Lang", year: "Aug 2022" }
+    { name: "The Complete Full-Stack Web Development Course", by: "Udemy — Angela Yu", tag: "Web", year: "Present", pdfUrl: "" },
+    { name: "Google Cybersecurity Professional Specialization", by: "Coursera (Google)", tag: "Security", year: "Dec 2024", pdfUrl: "" },
+    { name: "Cisco CyberOps Associate", by: "National Telecommunication Institute", tag: "Security", year: "Sep 2024", pdfUrl: "" },
+    { name: "Meta Front-End Development Specialization", by: "Coursera (Meta)", tag: "Web", year: "Mar 2024", pdfUrl: "" },
+    { name: "Machine Learning Specialization", by: "Coursera (DeepLearning.ai)", tag: "ML", year: "Sep 2023", pdfUrl: "" },
+    { name: "Flutter Development", by: "Sprints", tag: "Mobile", year: "Aug 2023", pdfUrl: "" },
+    { name: "Data Structures and Algorithms", by: "Coursera (UC San Diego)", tag: "CS", year: "Jan 2023", pdfUrl: "" },
+    { name: "Crash Course on Python", by: "Coursera (Google)", tag: "Lang", year: "Aug 2022", pdfUrl: "" }
   ],
 
   contact: {
