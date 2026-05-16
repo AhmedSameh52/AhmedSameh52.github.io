@@ -256,10 +256,11 @@ html[data-pixel="on"] .theme-toggle { border-radius: 0; }
 
 /* HERO */
 .hero {
-  padding-top: clamp(48px, 8vw, 96px);
+  padding-top: clamp(24px, 4vw, 48px);
   padding-bottom: clamp(60px, 9vw, 120px);
   position: relative;
   overflow: hidden;
+  scroll-margin-top: 64px;
 }
 .hero-grid {
   display: grid;
@@ -510,6 +511,14 @@ section {
   font-size: 14px;
   max-width: 60ch;
 }
+.exp-bullets {
+  margin: 0 0 10px;
+  padding-left: 18px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  max-width: 60ch;
+}
+.exp-bullets li { margin-bottom: 4px; }
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -761,11 +770,11 @@ section {
 
 /* CONTACT */
 .contact {
-  padding: clamp(80px, 12vw, 160px) 0 clamp(60px, 8vw, 120px);
+  padding: clamp(56px, 7vw, 88px) 0 clamp(60px, 8vw, 120px);
 }
 .contact .lead {
   font-family: var(--serif);
-  font-size: clamp(54px, 9vw, 132px);
+  font-size: clamp(40px, 6vw, 88px);
   line-height: 0.95;
   letter-spacing: -0.01em;
   margin: 24px 0 36px;
@@ -866,7 +875,7 @@ html[data-pixel="on"] .avatar-card {
 
 /* Terminal title bar via ::before */
 html[data-pixel="on"] .avatar-card::before {
-  content: "▓ ahmed@portfolio — avatar.png ▓";
+  content: "ahmed@portfolio — avatar.png";
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 30px;
@@ -1126,6 +1135,7 @@ html[data-pixel="on"] .gems-modal .panel { border-radius: 0; box-shadow: 8px 8px
 /* Nav: compact on very small phones */
 @media (max-width: 420px) {
   .nav-inner { height: 56px; }
+  .hero { scroll-margin-top: 56px; }
   .nav-cta { padding: 7px 10px; font-size: 11px; letter-spacing: 0.02em; }
   .nav-brand { font-size: 11px; gap: 8px; }
 }
@@ -1138,13 +1148,13 @@ html[data-pixel="on"] .gems-modal .panel { border-radius: 0; box-shadow: 8px 8px
 
 /* Hero: tighter vertical rhythm on mobile */
 @media (max-width: 540px) {
-  .hero { padding-top: 36px; padding-bottom: 48px; }
+  .hero { padding-top: 18px; padding-bottom: 48px; }
   .hero-meta { gap: 16px 20px; margin-top: 24px; }
 }
 
 /* Contact: prevent email from overflowing narrow viewports */
 @media (max-width: 640px) {
-  .contact .lead { font-size: clamp(38px, 9vw, 56px); }
+  .contact .lead { font-size: clamp(30px, 8vw, 44px); }
   .contact .email-link {
     font-size: clamp(17px, 5vw, 28px);
     word-break: break-all;

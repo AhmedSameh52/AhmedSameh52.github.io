@@ -212,7 +212,7 @@ function Hero({ onAvatarClick, onLiveClick, avatarFx, theme }) {
           </div>
         </div>
         <div className="hero-tail">
-          <p className="tagline">{D.tagline}. Currently shipping microservices at e&amp; — building the kind of glue that keeps a telecom moving.</p>
+          <p className="tagline">{D.tagline}. Currently shipping software at e&amp;, microservices, event pipelines, and distributed systems.</p>
           <div className="hero-meta">
             <div>
               <span className="label">Status</span>
@@ -243,13 +243,13 @@ function About() {
         <div className="section-head reveal">
           <div>
             <span className="eyebrow"><span className="num">02</span> / About</span>
-            <h2>Engineer, tinkerer, occasional troublemaker.</h2>
+            <h2>Engineer, tinkerer, curious by default.</h2>
           </div>
           <span className="meta">{`// about.md`}</span>
         </div>
         <div className="about-grid reveal">
           <div className="about-side">
-            <div className="row"><span className="k">Focus</span><span className="v">Backend · AI · Embedded</span></div>
+            <div className="row"><span className="k">Focus</span><span className="v">Backend · AI · Security</span></div>
             <div className="row"><span className="k">Stack</span><span className="v">Java · Spring · Node</span></div>
             <div className="row"><span className="k">Studied</span><span className="v">Computer Engineering</span></div>
             <div className="row"><span className="k">Lives in</span><span className="v">Cairo, Egypt</span></div>
@@ -286,7 +286,9 @@ function Experience() {
               <div className="tl-body">
                 <h3>{e.company}</h3>
                 <div className="role">{e.role}</div>
-                <p>{e.note}</p>
+                {e.bullets
+                  ? <ul className="exp-bullets">{e.bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>
+                  : <p>{e.note}</p>}
                 <div className="chips">
                   {e.stack.map(s => <span key={s} className="chip">{s}</span>)}
                 </div>
@@ -309,7 +311,7 @@ function EduCerts() {
             <span className="eyebrow"><span className="num">04</span> / Education &amp; Certs</span>
             <h2>Credentials.</h2>
           </div>
-          <span className="meta">{`// degrees + papers`}</span>
+          <span className="meta">{`// degrees + certs`}</span>
         </div>
         <div className="split">
           <div className="card reveal">
